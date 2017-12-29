@@ -3,29 +3,53 @@ The script explains how to install mod evasve in HostingRaja server
 
 
 #!/usr/bin/env bash
+
 ver_d=`rpm -qa \*-release | grep -Ei "oracle|redhat|centos" | cut -d"-" -f3`
+
+
 httpd_conf_path="/etc/httpd/conf.d/";
+
 mod_evas_file="mod_evasive.conf";
+
 mod_evas_back="mod_evasive.conf_back";
+
 null_file="/dev/null";
+
 bcp_mod_file=$httpd_conf_path$mod_evas_back;
+
 ocp_mod_file=$httpd_conf_path$mod_evas_file;
+
 if yum list installed  |  grep -F 'mod_evasive' >>$null_file;
+
 then 
-	if [ -f $bcp_mod_file ]
-	then 
-		yes | cp -avr $bcp_mod_file $ocp_mod_file >>$null_file;
-	fi	
+
+if [ -f $bcp_mod_file ]
+
+then 
+
+yes | cp -avr $bcp_mod_file $ocp_mod_file >>$null_file;
+
+fi	
+
 else
-	yum install mod_evasive -y  
+
+yum install mod_evasive -y  
+
 fi
 
+
 if [ $ver_d == "7" ]
+
 then
-	systemctl restart httpd >>$null_file ;
+
+
+systemctl restart httpd >>$null_file ;
+
 
 else
-	service httpd restart >>$null_file ;
+
+service httpd restart >>$null_file ;
+
 fi
 #################################################################################################################
 
